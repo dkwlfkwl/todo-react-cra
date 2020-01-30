@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-class Form extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.refInput = React.createRef();
-  }
+class Form extends Component {
+  refInput = React.createRef();
 
   submitHandler = (e) => {
     const input = this.refInput.current;
     const value = input.value;
-
     const isKeyPress = e.type === 'keypress';
 
     if(isKeyPress) {

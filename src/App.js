@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Form from './Form';
 import List from './List';
-class App extends React.Component {
+
+class App extends Component {
 
   state = {
     todos: []
   }
 
   componentDidMount() {
-    if(localStorage.getItem('todolist') !== null) {
-      this.setState({
-        todos: JSON.parse(localStorage.getItem('todolist'))
-      });
-    } else {
-      localStorage.setItem('todolist', JSON.stringify([]));
+    const localStorageItem = localStorage.getItem('todolist');
+
+    if(localStorageItem !== null) {
+      this.setState(() => ({
+        todos: JSON.parse(localStorageItem)
+      }));
     }
-    
   }
 
   componentDidUpdate() {
@@ -25,22 +25,22 @@ class App extends React.Component {
   insertNewTodo = (value) => {
     const newItem = {
       id: new Date().valueOf(),
-      text: value.trim(),
+      title: value.trim(),
       completed: false
     };
 
-    this.setState({
+    this.setState(() => ({
       todos: this.state.todos.concat(newItem)
-    });
+    }));
   }
 
   deleteTodo = (id) => {
-    this.setState((state) => (
-      { todos: state.todos.filter((item) => (item.id !== id)) }
-    ));
+    this.setState((state) => ({
+      todos: state.todos.filter((item) => (item.id !== id))
+    }));
   }
 
-  changeCompleted = (id) => {
+  toggleCompleted = (id) => {
     this.setState((state) => ({
       todos: state.todos.map((item) => {
         if(item.id === id) item.completed = !item.completed;
@@ -50,21 +50,15 @@ class App extends React.Component {
     ));
   }
 
-  moveTodo = (index, dir) => {
-    const targetIndex = index;
-    const direction = dir;
-    let insertIndex;
+  moveTodo = (id, dir) => {
+    const targetIndex = this.state.todos.findIndex(item => item.id === id);
+    const direction = dir === 'up' ? -1 : 1;
+    const insertIndex = targetIndex >= 0 ? targetIndex + direction : targetIndex;
 
     if(targetIndex === 0 && direction === -1) {
       if(targetIndex === this.state.todos.length - 1 && direction === 1) {
         return false;
       }
-    }
-
-    if(targetIndex >= 0) {
-      insertIndex = targetIndex + direction;
-    } else {
-      insertIndex = targetIndex
     }
 
     this.setState((state) => {
@@ -77,13 +71,13 @@ class App extends React.Component {
   }
 
   render() {
-    return (
+    return(
       <div className="todo">
         <Form insertNewTodo={this.insertNewTodo} />
         <List
           todos={this.state.todos}
           moveTodo={this.moveTodo}
-          changeCompleted={this.changeCompleted}
+          toggleCompleted={this.toggleCompleted}
           deleteTodo={this.deleteTodo}
         />
       </div>

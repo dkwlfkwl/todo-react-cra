@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Item from './Item';
 
-class List extends React.Component {
+class List extends Component {
   render() {
-    const { todos, moveTodo, changeCompleted, deleteTodo } = this.props;
+    const { todos, moveTodo, toggleCompleted, deleteTodo } = this.props;
 
     return(
       <ul className="list">
-        {todos.map((item, index) => (
+        {todos.map(({ id, title, completed }) => (
           <Item
-            key={item.id}
-            todos={item}
-            index={index}
+            key={id}
+            id={id}
+            title={title}
+            completed={completed}
             moveTodo={moveTodo}
-            changeCompleted={changeCompleted}
+            toggleCompleted={toggleCompleted}
             deleteTodo={deleteTodo}
           />
         ))}
