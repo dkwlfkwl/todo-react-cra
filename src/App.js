@@ -71,7 +71,7 @@ class App extends Component {
   }
 
   render() {
-    return(
+    return (
       <div className="todo">
         <Form insertNewTodo={this.insertNewTodo} />
         <List

@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Item from './Item';
 
 class List extends Component {
+
   render() {
     const { todos, moveTodo, toggleCompleted, deleteTodo } = this.props;
 
-    return(
+    return (
       <ul className="list">
         {todos.map(({ id, title, completed }) => (
           <Item

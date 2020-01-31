@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Form extends Component {
   refInput = React.createRef();
 
-  submitHandler = (e) => {
+  handleSubmit = (e) => {
     const input = this.refInput.current;
     const value = input.value;
     const isKeyPress = e.type === 'keypress';
@@ -21,10 +21,10 @@ class Form extends Component {
   }
 
   render() {
-    return(
+    return (
       <div className="header">
-        <input type="text" className="new-todo" ref={this.refInput} onKeyPress={this.submitHandler}/>
-        <button type="button" className="btn-submit" onClick={this.submitHandler}>등록</button>
+        <input type="text" className="new-todo" ref={this.refInput} onKeyPress={this.handleSubmit}/>
+        <button type="button" className="btn-submit" onClick={this.handleSubmit}>등록</button>
       </div>
     );
   }
